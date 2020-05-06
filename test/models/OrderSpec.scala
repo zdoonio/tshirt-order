@@ -37,7 +37,7 @@ class OrderSpec extends Specification {
       count should be_>(0L)
     }
     "create new record" in new AutoRollback {
-      val created = Order.create(tShirtId = 123, name = "MyString", age = 123, createDate = LocalDate.now)
+      val created = Order.create(createDate = LocalDate.now)
       created should not beNull
     }
     "save a record" in new AutoRollback {

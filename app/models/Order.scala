@@ -5,9 +5,6 @@ import java.time.{LocalDate}
 
 case class Order(
   id: Int,
-  tShirtId: Int,
-  name: String,
-  age: Int,
   createDate: LocalDate) {
 
   def save()(implicit session: DBSession = Order.autoSession): Order = Order.save(this)(session)
@@ -23,14 +20,11 @@ object Order extends SQLSyntaxSupport[Order] {
 
   override val tableName = "orders"
 
-  override val columns = Seq("id", "t_shirt_id", "name", "age", "create_date")
+  override val columns = Seq("id", "create_date")
 
   def apply(o: SyntaxProvider[Order])(rs: WrappedResultSet): Order = apply(o.resultName)(rs)
   def apply(o: ResultName[Order])(rs: WrappedResultSet): Order = new Order(
     id = rs.get(o.id),
-    tShirtId = rs.get(o.tShirtId),
-    name = rs.get(o.name),
-    age = rs.get(o.age),
     createDate = rs.get(o.createDate)
   )
 
@@ -71,43 +65,25 @@ object Order extends SQLSyntaxSupport[Order] {
   }
 
   def create(
-    tShirtId: Int,
-    name: String,
-    age: Int,
     createDate: LocalDate)(implicit session: DBSession = autoSession): Order = {
     val generatedKey = withSQL {
       insert.into(Order).namedValues(
-        column.tShirtId -> tShirtId,
-        column.name -> name,
-        column.age -> age,
         column.createDate -> createDate
       )
     }.updateAndReturnGeneratedKey.apply()
 
     Order(
       id = generatedKey.toInt,
-      tShirtId = tShirtId,
-      name = name,
-      age = age,
       createDate = createDate)
   }
 
   def batchInsert(entities: Seq[Order])(implicit session: DBSession = autoSession): List[Int] = {
     val params: Seq[Seq[(Symbol, Any)]] = entities.map(entity =>
       Seq(
-        'tShirtId -> entity.tShirtId,
-        'name -> entity.name,
-        'age -> entity.age,
         'createDate -> entity.createDate))
     SQL("""insert into orders(
-      t_shirt_id,
-      name,
-      age,
       create_date
     ) values (
-      {tShirtId},
-      {name},
-      {age},
       {createDate}
     )""").batchByName(params: _*).apply[List]()
   }
@@ -116,9 +92,6 @@ object Order extends SQLSyntaxSupport[Order] {
     withSQL {
       update(Order).set(
         column.id -> entity.id,
-        column.tShirtId -> entity.tShirtId,
-        column.name -> entity.name,
-        column.age -> entity.age,
         column.createDate -> entity.createDate
       ).where.eq(column.id, entity.id)
     }.update.apply()

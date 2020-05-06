@@ -3,61 +3,60 @@ package models
 import scalikejdbc.specs2.mutable.AutoRollback
 import org.specs2.mutable._
 import scalikejdbc._
-import java.time.{ZonedDateTime}
 
 
-class ProductSpec extends Specification {
+class TShirtOrderSpec extends Specification {
 
-  "Product" should {
+  "TShirtOrder" should {
 
-    val p = Product.syntax("p")
+    val tso = TShirtOrder.syntax("tso")
 
     "find by primary keys" in new AutoRollback {
-      val maybeFound = Product.find(1L)
+      val maybeFound = TShirtOrder.find(123)
       maybeFound.isDefined should beTrue
     }
     "find by where clauses" in new AutoRollback {
-      val maybeFound = Product.findBy(sqls.eq(p.id, 1L))
+      val maybeFound = TShirtOrder.findBy(sqls.eq(tso.id, 123))
       maybeFound.isDefined should beTrue
     }
     "find all records" in new AutoRollback {
-      val allResults = Product.findAll()
+      val allResults = TShirtOrder.findAll()
       allResults.size should be_>(0)
     }
     "count all records" in new AutoRollback {
-      val count = Product.countAll()
+      val count = TShirtOrder.countAll()
       count should be_>(0L)
     }
     "find all by where clauses" in new AutoRollback {
-      val results = Product.findAllBy(sqls.eq(p.id, 1L))
+      val results = TShirtOrder.findAllBy(sqls.eq(tso.id, 123))
       results.size should be_>(0)
     }
     "count by where clauses" in new AutoRollback {
-      val count = Product.countBy(sqls.eq(p.id, 1L))
+      val count = TShirtOrder.countBy(sqls.eq(tso.id, 123))
       count should be_>(0L)
     }
     "create new record" in new AutoRollback {
-      val created = Product.create(createdAt = null, updatedAt = null)
+      val created = TShirtOrder.create(name = "MyString", age = 123, tShirtId = 123, orderId = 123)
       created should not beNull
     }
     "save a record" in new AutoRollback {
-      val entity = Product.findAll().head
+      val entity = TShirtOrder.findAll().head
       // TODO modify something
       val modified = entity
-      val updated = Product.save(modified)
+      val updated = TShirtOrder.save(modified)
       updated should not equalTo(entity)
     }
     "destroy a record" in new AutoRollback {
-      val entity = Product.findAll().head
-      val deleted = Product.destroy(entity) == 1
+      val entity = TShirtOrder.findAll().head
+      val deleted = TShirtOrder.destroy(entity) == 1
       deleted should beTrue
-      val shouldBeNone = Product.find(1L)
+      val shouldBeNone = TShirtOrder.find(123)
       shouldBeNone.isDefined should beFalse
     }
     "perform batch insert" in new AutoRollback {
-      val entities = Product.findAll()
-      entities.foreach(e => Product.destroy(e))
-      val batchInserted = Product.batchInsert(entities)
+      val entities = TShirtOrder.findAll()
+      entities.foreach(e => TShirtOrder.destroy(e))
+      val batchInserted = TShirtOrder.batchInsert(entities)
       batchInserted.size should be_>(0)
     }
   }
