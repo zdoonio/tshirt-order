@@ -3,4 +3,11 @@
 # This file defines all application routes (Higher priority routes first)
 # ~~~~
 
-GET     /                   controllers.DemoController.get
+GET     /                   controllers.HomeController.get
+
+#Order
+GET     /api/orders                 controllers.ApiController.getOrders
+POST    /api/order                  controllers.ApiController.createOrder
+
+# Map static resources from the /public folder to the /assets URL path
+GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)

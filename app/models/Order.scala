@@ -1,7 +1,9 @@
 package models
 
 import scalikejdbc._
-import java.time.{LocalDate}
+import java.time.LocalDate
+
+import models.dto.{OrderDTO, OrderTshirtsDTO}
 
 case class Order(
   id: Int,
@@ -29,6 +31,8 @@ object Order extends SQLSyntaxSupport[Order] {
   )
 
   val o = Order.syntax("o")
+  val tso = TShirtOrder.syntax("tso")
+  val to = TShirt.syntax("to")
 
   override val autoSession = AutoSession
 
@@ -100,6 +104,42 @@ object Order extends SQLSyntaxSupport[Order] {
 
   def destroy(entity: Order)(implicit session: DBSession = autoSession): Int = {
     withSQL { delete.from(Order).where.eq(column.id, entity.id) }.update.apply()
+  }
+
+  //    SQL("""
+  //          SELECT o.id, o.create_date, tso.name, tso.age, ts.color, ts.size
+  //          FROM Orders as o LEFT JOIN T_shirt_order as tso ON tso.order_id = o.id
+  //          LEFT JOIN t_shirts as ts ON ts.id = tso.t_shirt_id
+  //      """
+  //    )
+
+  //    val orders = Order.findAll()
+  //
+  //    orders.flatMap{ order =>
+  //      TShirtOrder.findAllBy(sqls"order_id = ${order.id}").map { tshirtOrder =>
+  //        TShirt.findBy(sqls"id=${tshirtOrder.tShirtId}")
+  //
+  //        OrderDTO(order.id, order.createDate, )
+  //      }
+  //  }
+
+  /**
+    *
+    * @param session
+    * @return
+    */
+  def findOrderWithTshirts()(implicit session: DBSession = autoSession): List[OrderTshirtsDTO] = {
+    withSQL {
+      select(o.result.id, o.result.createDate, tso.result.name, tso.result.age, to.result.color, to.result.size)
+        .from(Order as o)
+        .leftJoin(TShirtOrder as tso).on(o.id, tso.orderId)
+        .leftJoin(TShirt as to).on(tso.tShirtId, to.id)
+    }.map { obj =>
+      OrderTshirtsDTO(obj.int(1), obj.localDate(2),
+        obj.string(3), obj.int(4),
+        obj.string(5), obj.string(6))
+    }.list.apply()
+
   }
 
 }
