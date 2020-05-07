@@ -32,7 +32,7 @@ object Order extends SQLSyntaxSupport[Order] {
 
   val o = Order.syntax("o")
   val tso = TShirtOrder.syntax("tso")
-  val to = TShirt.syntax("to")
+  val ts = TShirt.syntax("ts")
 
   override val autoSession = AutoSession
 
@@ -106,23 +106,6 @@ object Order extends SQLSyntaxSupport[Order] {
     withSQL { delete.from(Order).where.eq(column.id, entity.id) }.update.apply()
   }
 
-  //    SQL("""
-  //          SELECT o.id, o.create_date, tso.name, tso.age, ts.color, ts.size
-  //          FROM Orders as o LEFT JOIN T_shirt_order as tso ON tso.order_id = o.id
-  //          LEFT JOIN t_shirts as ts ON ts.id = tso.t_shirt_id
-  //      """
-  //    )
-
-  //    val orders = Order.findAll()
-  //
-  //    orders.flatMap{ order =>
-  //      TShirtOrder.findAllBy(sqls"order_id = ${order.id}").map { tshirtOrder =>
-  //        TShirt.findBy(sqls"id=${tshirtOrder.tShirtId}")
-  //
-  //        OrderDTO(order.id, order.createDate, )
-  //      }
-  //  }
-
   /**
     *
     * @param session
@@ -130,10 +113,10 @@ object Order extends SQLSyntaxSupport[Order] {
     */
   def findOrderWithTshirts()(implicit session: DBSession = autoSession): List[OrderTshirtsDTO] = {
     withSQL {
-      select(o.result.id, o.result.createDate, tso.result.name, tso.result.age, to.result.color, to.result.size)
+      select(o.result.id, o.result.createDate, tso.result.name, tso.result.age, ts.result.color, ts.result.size)
         .from(Order as o)
         .leftJoin(TShirtOrder as tso).on(o.id, tso.orderId)
-        .leftJoin(TShirt as to).on(tso.tShirtId, to.id)
+        .leftJoin(TShirt as ts).on(tso.tShirtId, ts.id)
     }.map { obj =>
       OrderTshirtsDTO(obj.int(1), obj.localDate(2),
         obj.string(3), obj.int(4),
