@@ -1,0 +1,85 @@
+<div class="row">
+    <div class="col-sm-6">
+        <form name="addTshirtForm"
+              ng-submit="properName(tshirt.name) && !improperSings(tshirt.name) && addTshirtForm.$valid && submitForm(tshirt.name, tshirt.age, tshirt.color, tshirt.size)"
+              novalidate>
+            <!-- name -->
+            <div class="row newRow">
+                <div class="col-sm-3">
+                    <label for="name">Imię:</label>
+                </div>
+                <div class="col-sm-9">
+                    <input class="form-control" type="text" id="name" name="name" placeholder="Name"
+                           ng-model="tshirt.name"
+                           ng-class="{redInput: (addTshirtForm.name.$dirty || submitted) && (!properName(tshirt.name) || improperSings(tshirt.name))}"
+                           required>
+                    <span class="text-danger"
+                          ng-show="(addTshirtForm.name.$dirty || submitted) && addTshirtForm.name.$error.required">Napisz coś</span>
+                    <span class="text-danger" ng-show="addTshirtForm.name.$dirty && !properName(tshirt.name)">Imię zacznij od dużej litery</span>
+                    <span class="text-danger" ng-show="addTshirtForm.name.$dirty && improperSings(tshirt.name)">Niepoprawne znaki</span>
+                </div>
+            </div> <!-- /.row -->
+            <!-- age -->
+            <div class="row newRow">
+                <div class="col-sm-3">
+                    <label for="age">Wiek:</label>
+                </div>
+                <div class="col-sm-9">
+                    <input class="form-control" type="number" id="age" name="age" placeholder="Age" min="18" max="100"
+                           ng-model="tshirt.age"
+                           ng-class="{redInput: (addTshirtForm.age.$dirty || submitted)&& addTshirtForm.age.$error.required}"
+                           required>
+                    <span class="text-danger" ng-show="addTshirtForm.age.$error.min || addTshirtForm.age.$error.max">Wiek od 18 do 100</span>
+                    <span class="text-danger" ng-show="addTshirtForm.age.$error.number">Wiek powinnien być wartością numeryczną</span>
+                    <span class="text-danger"
+                          ng-show="(addTshirtForm.age.$dirty || submitted) && addTshirtForm.age.$error.required">Napisz coś</span>
+                </div>
+            </div> <!-- /.row -->
+            <!-- color -->
+            <div class="row newRow">
+                <div class="col-sm-3">
+                    <label for="color">Kolor:</label>
+                </div>
+                <div class="col-sm-9">
+                    <select id="color" name="color" class="form-control" ng-model="tshirt.color"
+                            ng-options="selectcolor.value as selectcolor.name for selectcolor in colourOptions"
+                            ng-class="{redInput: submitted && addTshirtForm.color.$error.required}" required>
+                    </select>
+                    <span class="text-danger" ng-show="submitted && addTshirtForm.color.$error.required">Wybierz coś</span>
+                </div>
+            </div> <!-- /.row -->
+            <!-- size -->
+            <div class="row newRow">
+                <label>
+                    <input type="radio" ng-model="tshirt.size" value="S">
+                    S
+                </label>
+                <label>
+                    <input type="radio" ng-model="tshirt.size" value="M">
+                    M
+                </label>
+                <label>
+                    <input type="radio" ng-model="tshirt.size" value="L">
+                    L
+                </label>
+                <label>
+                    <input type="radio" ng-model="tshirt.size" value="XL">
+                    XL
+                </label>
+            </div> <!-- /.row -->
+            <!-- submit -->
+            <div class="row newRow">
+                <div class="col-sm-offset-3 col-sm-9">
+                    <input type="submit" ng-click="trysubmit()" class="btn btn-primary full" value="Save">
+                </div>
+            </div> <!-- /.row -->
+        </form>
+    </div> <!-- /. col-sm-6 formSide -->
+    <div class="col-sm-6">
+        <h2><span class="">{{tshirt.name}}</span></h2>
+        <span ng-show="tshirt.age" class="violetColor">Wiek:</span><span class=""> {{tshirt.age}}</span> <br>
+        <span ng-show="tshirt.color" class="violetColor">Kolor:</span><span class=""> {{tshirt.color}}</span> <br>
+        <span ng-show="tshirt.size" class="violetColor">Rozmiar:</span><span class=""> {{tshirt.size}}</span> <br>
+
+    </div>
+</div>

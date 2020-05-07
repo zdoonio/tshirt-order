@@ -1,0 +1,27 @@
+<header class="container">
+    <div class="row">
+        <div class="col-sm-12">
+            <h1>Stwórz
+                <small>zamówienie</small>
+            </h1>
+        </div>
+    </div> <!-- /.row -->
+</header>
+
+<section class="container" ng-controller="sendController">
+    <div class="row" ng-show="showAddAlert">
+        <div class="alert alert-success">
+            <a class="close fade in" data-dismiss="alert" aria-label="close">&times;</a>
+            <strong>Success!</strong> Order <strong>{{aName}}</strong> was added!
+        </div>
+    </div>
+    <div class="row" ng-show="showErrorAlert">
+        <div class="alert alert-danger">
+            <a class="close fade in" data-dismiss="alert" aria-label="close">&times;</a>
+            <strong>Error!</strong> {{message}}
+        </div>
+    </div>
+    <tshirt-form></tshirt-form>
+    <order-send></order-send>
+    <br>
+</section>

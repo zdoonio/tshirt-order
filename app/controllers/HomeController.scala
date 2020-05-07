@@ -17,7 +17,7 @@ class HomeController @Inject()(cc: ControllerComponents) extends AbstractControl
     * a path of `/`.
     */
   def get = Action { implicit request =>
-    Ok("Hello API")
+    Ok(views.html.index())
   }
 
 }

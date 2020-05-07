@@ -1,0 +1,35 @@
+<header class="container">
+    <div class="row">
+        <div class="col-sm-12">
+            <h1>Zamówienia</h1>
+        </div> <!-- /.col-sm-12 -->
+    </div>
+</header> <!-- /.row -->
+<section class="container">
+    <div class="row">
+        <div class="col-sm-12 table table-responsive">
+            <table class="table table-striped table-bordered table-hover">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th colspan="3">Data</th>
+                </tr>
+                </thead>
+                <tbody ng-repeat="order in orders" class="table-primary clickable" data-toggle="collapse"
+                       data-target=".{{order.id}}">
+                <tr>
+                    <td>{{order.id}}</td>
+                    <td colspan="3">{{order.date}}</td>
+                </tr>
+                <tr class="borderless collapse {{order.id}}" ng-repeat="tshirt in order.tshirts">
+                    <td>Nazwa: {{tshirt.name}}</td>
+                    <td>Wiek: {{tshirt.age}}</td>
+                    <td>Kolor: {{tshirt.color}}</td>
+                    <td>Rozmiar: {{tshirt.size}}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div> <!-- /.col-sm-12 -->
+    </div> <!-- /.row -->
+    <button class="col-sm-4 btn btn-primary full" ng-click="refreshData()">Szukaj</button>
+</section><!-- /.container -->
