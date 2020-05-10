@@ -18,10 +18,11 @@
                 <tbody ng-repeat="order in orders" class="table-primary clickable" data-toggle="collapse"
                        data-target=".{{order.id}}">
                 <tr>
-                    <td>{{order.id}}</td>
+                    <td colspan="2">{{order.id}}</td>
                     <td colspan="3">{{order.date}}</td>
                 </tr>
                 <tr class="borderless collapse {{order.id}}" ng-repeat="tshirt in order.tshirts">
+                    <td><div ng-style="getStyle(tshirt.color, tshirt.size)"></div></td>
                     <td>Nazwa: {{tshirt.name}}</td>
                     <td>Wiek: {{tshirt.age}}</td>
                     <td>Kolor: {{tshirt.color}}</td>

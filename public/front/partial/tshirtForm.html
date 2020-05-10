@@ -50,6 +50,9 @@
             </div> <!-- /.row -->
             <!-- size -->
             <div class="row newRow">
+                <div class="col-sm-3">
+                    Rozmiar:
+                </div>
                 <label>
                     <input type="radio" ng-model="tshirt.size" value="S">
                     S
@@ -76,7 +79,8 @@
         </form>
     </div> <!-- /. col-sm-6 formSide -->
     <div class="col-sm-6">
-        <h2><span class="">{{tshirt.name}}</span></h2>
+        <div ng-style="getStyle(tshirt.color, tshirt.size)"></div>
+        <h2><span>{{tshirt.name}}</span></h2>
         <span ng-show="tshirt.age" class="violetColor">Wiek:</span><span class=""> {{tshirt.age}}</span> <br>
         <span ng-show="tshirt.color" class="violetColor">Kolor:</span><span class=""> {{tshirt.color}}</span> <br>
         <span ng-show="tshirt.size" class="violetColor">Rozmiar:</span><span class=""> {{tshirt.size}}</span> <br>

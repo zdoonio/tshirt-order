@@ -24,11 +24,10 @@ function sendOrder( $scope, $http ) {
 		}
 		console.log(jsonList);
 		$http.post('http://localhost:9000/api/order', jsonList)
-		.then( function ( data, status, headers, config ) {
+		.then( function ( data) {
 			if(data.status === 201)
 			vm.showAddAlert = true;
 		}).catch(function (data) {
-			console.log(data);
 			vm.message = data.data.error;
 			vm.showErrorAlert = true;
 		});
