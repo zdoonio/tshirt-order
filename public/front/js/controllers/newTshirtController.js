@@ -4,9 +4,9 @@ angular
 	])
 	.controller( 'newTshirt', newTshirt );
 
-	newTshirt.$inject = [ '$scope', '$http' ];
+	newTshirt.$inject = [ '$scope' ];
 
-function newTshirt( $scope, $http ) {
+function newTshirt( $scope ) {
 
 	var vm = $scope;
 
