@@ -1,8 +1,7 @@
 <div class="row">
     <div class="col-sm-6">
         <form name="addTshirtForm"
-              ng-submit="properName(tshirt.name) && !improperSings(tshirt.name) && addTshirtForm.$valid && submitForm(tshirt.name, tshirt.age, tshirt.color, tshirt.size)"
-              novalidate>
+              ng-submit="properName(tshirt.name) && !improperSings(tshirt.name) && addTshirtForm.$valid && submitForm(tshirt.name, tshirt.age, tshirt.color, tshirt.size)">
             <!-- name -->
             <div class="row newRow">
                 <div class="col-sm-3">
@@ -73,7 +72,7 @@
             <!-- submit -->
             <div class="row newRow">
                 <div class="col-sm-offset-3 col-sm-9">
-                    <input type="submit" ng-click="trysubmit()" class="btn btn-primary full" value="Save">
+                    <input type="submit" ng-mousedown="checkAvaliability(tshirt)" ng-click="trysubmit()" class="btn btn-primary full" value="Save">
                 </div>
             </div> <!-- /.row -->
         </form>

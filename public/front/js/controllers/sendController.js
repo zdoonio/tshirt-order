@@ -22,13 +22,17 @@ function sendOrder( $scope, $http ) {
 			var rowJson = JSON.parse(row);
 			jsonList.push(rowJson);
 		}
-		console.log(jsonList);
+		if(jsonList.length === 0) {
+			vm.message = "brak koszulek w zamówieniu";
+			vm.showErrorAlert = true;
+			return;
+		}
 		$http.post('http://localhost:9000/api/order', jsonList)
 		.then( function ( data) {
 			if(data.status === 201)
 			vm.showAddAlert = true;
 		}).catch(function (data) {
-			vm.message = data.data.error;
+			vm.message = data.result.error;
 			vm.showErrorAlert = true;
 		});
 	};
