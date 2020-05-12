@@ -79,11 +79,10 @@ function newTshirt($scope, $http) {
 
     vm.checkAvaliability = function (data) {
         $http.post('http://localhost:9000/api/order/check ', data).then(function (result) {
-            console.log(result);
             if (result.data.code === 400) {
                 vm.message = result.data.message;
                 vm.showErrorAlert = true;
-                vm.tshirts = vm.tshirts.splice(-1,1);
+                vm.tshirts = vm.tshirts.slice(0, -1);
                 return false;
             } else {
                 return true;
